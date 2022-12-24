@@ -1,9 +1,10 @@
 import passport from 'passport'
 import localStrategy from './local'
 import jwtStrategy from './jwt'
+import { Application } from 'express'
 
 export default {
-  init (app) {
+  init (app: Application) {
     passport.use('login', localStrategy)
     passport.use('jwt', jwtStrategy)
 

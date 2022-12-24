@@ -1,4 +1,11 @@
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
+import { Jwt } from 'jsonwebtoken'
+import {
+  Strategy as JwtStrategy,
+  ExtractJwt,
+  VerifyCallbackWithRequest,
+  VerifiedCallback
+} from 'passport-jwt'
+import * as express from 'express'
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -7,9 +14,13 @@ const options = {
   passReqToCallback: true
 }
 
-export default new JwtStrategy(options, async (req, jwtPayload, done) => {
+const callback: VerifyCallbackWithRequest = (
+  req: express.Request,
+  jwtPayload: any,
+  done: VerifiedCallback
+) => {
   if (!jwtPayload || !jwtPayload.email) {
-    return done(null, null)
+    return done(null, false)
   }
 
   // TODO: Check if the user is in redis already
@@ -24,15 +35,19 @@ export default new JwtStrategy(options, async (req, jwtPayload, done) => {
 
   // Find the user
   // const user = await Member.findByEmail(username, true)
-  const user = {}
+  const user: Express.User = {
+    id: 1
+  }
 
   // Remove any sensitive information
   // delete user.passwordHash
   // delete user.passwordSalt
 
   if (!user) {
-    return done(null, null)
+    return done(null, false)
   }
 
   return done(null, user)
-})
+}
+
+export default new JwtStrategy(options, callback)

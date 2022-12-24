@@ -5,7 +5,7 @@ import { performance } from 'perf_hooks'
 // Prevent logging requests for these routes as they contain passwords.
 const noLog = ['']
 
-function requestLogger (req, res: Response, next: NextFunction) {
+function requestLogger (req: Request, res: Response, next: NextFunction) {
   const t0 = performance.now()
   console.time(req.id)
   console.info('Request received: ', {
@@ -28,12 +28,17 @@ function requestLogger (req, res: Response, next: NextFunction) {
   next()
 }
 
-function logErrors (err, req, res, next) {
+function logErrors (err: any, req: Request, res: Response, next: NextFunction) {
   console.error(err.stack)
   next(err)
 }
 
-function clientErrorHandler (err, req, res, next) {
+function clientErrorHandler (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   res.status(500).send({ error: 'Oh no. Something failed!' })
 }
 

@@ -4,7 +4,6 @@ import knex, { Knex } from 'knex'
 import knexStringcase from 'knex-stringcase'
 import knexPostgis, { KnexPostgis } from 'knex-postgis'
 import pg from 'pg'
-
 let databaseClient: Knex
 let geoFunc: KnexPostgis
 function handleFailure (err: any) {

@@ -1,12 +1,17 @@
 import { Strategy as LocalStrategy } from 'passport-local'
 
-export const localStrategy = async (username, password, done) => {
+export const localStrategy = async (
+  username: string,
+  password: string,
+  done: Function
+) => {
   try {
     // Find the user
     // const user = await Member.findByEmail(username, true)
     const user = {
       // This should be replaced with a valid function
-      validatePassword: password => {
+      validatePassword: (password: string) => {
+        console.warn('Please update teh validatePassword function', password)
         return true
       }
     }

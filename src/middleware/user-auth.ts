@@ -1,8 +1,8 @@
-import e, { Request, Response, NextFunction } from 'express'
-import passport from 'passport'
+import { Request, Response, NextFunction } from 'express'
+import { authenticate as passportAuthenticate } from 'passport'
 
 function auth (req: Request, res: Response, next: NextFunction) {
-  const authenticate = passport.authenticate(
+  const authenticate = passportAuthenticate(
     'jwt',
     { session: false },
     (err, user, info) => {
